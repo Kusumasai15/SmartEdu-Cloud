@@ -1,0 +1,108 @@
+version: "3.8"
+
+services:
+  # --- PostgreSQL Database ---
+  db:
+    image: postgres:16-alpine
+    container_name: smartedu_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-smartedu_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-smartedu_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-smartedu_user} -d ${POSTGRES_DB:-smartedu_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- Redis Cache & Session Store ---
+  redis:
+    image: redis:7-alpine
+    container_name: smartedu_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- FastAPI Backend API ---
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: smartedu_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: production
+      DEBUG: "false"
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: redis://redis:6379/0
+      REQUIRE_REDIS: "true"
+      PUBLIC_API_DOCS: ${PUBLIC_API_DOCS:-false}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-*}
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in .env}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-https://15.252.235.113.sslip.io}
+      MCP_CHATGPT_CLIENT_SECRET: ${MCP_CHATGPT_CLIENT_SECRET:-smartedu_mcp_chatgpt_secret}
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-20}
+      DB_MAX_OVERFLOW: ${DB_MAX_OVERFLOW:-40}
+      DB_POOL_RECYCLE_SECONDS: ${DB_POOL_RECYCLE_SECONDS:-1800}
+      AUTH_RATE_LIMIT_ENABLED: "true"
+      LOGIN_RATE_LIMIT_ATTEMPTS: ${LOGIN_RATE_LIMIT_ATTEMPTS:-500}
+      LOGIN_RATE_LIMIT_WINDOW_SECONDS: ${LOGIN_RATE_LIMIT_WINDOW_SECONDS:-30}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-4}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.0-flash}
+      BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-*}
+      AWS_REGION: ${AWS_REGION:-ap-south-1}
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET:?Set AWS_S3_BUCKET in .env}
+      AWS_CLOUDFRONT_URL: ${AWS_CLOUDFRONT_URL:-}
+      AWS_UPLOAD_URL_EXPIRE_SECONDS: ${AWS_UPLOAD_URL_EXPIRE_SECONDS:-300}
+      AWS_MAX_UPLOAD_BYTES: ${AWS_MAX_UPLOAD_BYTES:-26214400}
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-screenerpro.ai@gmail.com}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-rctjyphwdvqkzlpt}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-screenerpro.ai@gmail.com}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-UniFlow University LMS}
+      SMTP_TLS: ${SMTP_TLS:-true}
+    command: ["sh", "-c", "alembic stamp heads && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4"]
+    ports:
+      - "8000:8000"
+
+  # --- Next.js Frontend Application ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-/api/v1}
+    container_name: smartedu_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-/api/v1}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+  redis_data:

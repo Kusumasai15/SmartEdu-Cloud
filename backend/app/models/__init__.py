@@ -1,0 +1,196 @@
+"""SQLAlchemy Domain Models Package for SmartEdu Cloud."""
+from app.models.base import TimestampMixin, generate_uuid
+from app.models.role import Role
+from app.models.permission import Permission, RolePermission
+from app.models.department import Department
+from app.models.school import School
+from app.models.semester import Semester
+from app.models.user import User
+from app.models.course import Course, CourseInstructor
+from app.models.course_module import CourseModule
+from app.models.topic import Topic
+from app.models.enrollment import Enrollment, EnrollmentStatus
+from app.models.token import RefreshToken
+from app.models.learning_content import LearningContent, ContentType, ContentStatus
+from app.models.content_progress import StudentContentProgress, ProgressStatus
+from app.models.assignment import Assignment, AssignmentStatus
+from app.models.assignment_submission import AssignmentSubmission, SubmissionStatus
+from app.models.question import Question, QuestionOption, QuestionType, DifficultyLevel
+from app.models.exam import Exam, ExamQuestion, ProctoringPolicy, ExamType, ProctoringMode
+from app.models.exam_attempt import ExamAttempt, ExamAnswer, AttemptStatus, ReviewStatus
+from app.models.proctoring_event import ProctoringEvent, EventSeverity, ProctoringEventType
+from app.models.timetable import ClassSchedule, DayOfWeek, ScheduleStatus
+from app.models.attendance import (
+    AttendanceSession,
+    AttendanceRecord,
+    AttendanceCorrection,
+    AttendanceSessionStatus,
+    AttendanceStatus,
+    CorrectionStatus,
+)
+from app.models.result import (
+    GradeScale,
+    GradeScaleItem,
+    CourseAssessmentWeight,
+    CourseResult,
+    ResultComponentScore,
+    ResultCorrectionRequest,
+    SemesterResult,
+    ResultStatus,
+    AcademicStatus,
+    CorrectionRequestStatus,
+    AssessmentComponentType,
+)
+from app.models.academic_intelligence import (
+    AcademicRiskSnapshot,
+    RiskConfiguration,
+    InsightAlert,
+    AcademicRiskLevel,
+    PerformanceTrendDirection,
+    CourseHealthStatus,
+)
+from app.models.communication import (
+    Notification,
+    NotificationPreference,
+    Announcement,
+    AnnouncementAcknowledgement,
+    Conversation,
+    ConversationParticipant,
+    DirectMessage,
+    NotificationCategory,
+    NotificationPriority,
+    NotificationStatus,
+    AnnouncementScope,
+    AnnouncementStatus,
+    AnnouncementPriority,
+    ConversationType,
+)
+from app.models.scheduling import (
+    AcademicCalendarEvent,
+    AcademicRoom,
+    StudentLeaveRequest,
+    ScheduleChangeLog,
+    SubstituteFacultyAssignment,
+    CalendarEventType,
+    RoomType,
+    LeaveType,
+    LeaveStatus,
+    SessionType,
+    SubstitutionStatus,
+)
+
+__all__ = [
+    "TimestampMixin",
+    "generate_uuid",
+    "Role",
+    "Permission",
+    "RolePermission",
+    "Department",
+    "School",
+    "Semester",
+    "User",
+    "Course",
+    "CourseInstructor",
+    "CourseModule",
+    "Topic",
+    "Enrollment",
+    "EnrollmentStatus",
+    "RefreshToken",
+    "LearningContent",
+    "ContentType",
+    "ContentStatus",
+    "StudentContentProgress",
+    "ProgressStatus",
+    "Assignment",
+    "AssignmentStatus",
+    "AssignmentSubmission",
+    "SubmissionStatus",
+    "Question",
+    "QuestionOption",
+    "QuestionType",
+    "DifficultyLevel",
+    "Exam",
+    "ExamQuestion",
+    "ProctoringPolicy",
+    "ExamType",
+    "ProctoringMode",
+    "ExamAttempt",
+    "ExamAnswer",
+    "AttemptStatus",
+    "ReviewStatus",
+    "ProctoringEvent",
+    "EventSeverity",
+    "ProctoringEventType",
+    "ClassSchedule",
+    "DayOfWeek",
+    "ScheduleStatus",
+    "AttendanceSession",
+    "AttendanceRecord",
+    "AttendanceCorrection",
+    "AttendanceSessionStatus",
+    "AttendanceStatus",
+    "CorrectionStatus",
+    "GradeScale",
+    "GradeScaleItem",
+    "CourseAssessmentWeight",
+    "CourseResult",
+    "ResultComponentScore",
+    "ResultCorrectionRequest",
+    "SemesterResult",
+    "ResultStatus",
+    "AcademicStatus",
+    "CorrectionRequestStatus",
+    "AssessmentComponentType",
+    "AcademicRiskSnapshot",
+    "RiskConfiguration",
+    "InsightAlert",
+    "AcademicRiskLevel",
+    "PerformanceTrendDirection",
+    "CourseHealthStatus",
+    "Notification",
+    "NotificationPreference",
+    "Announcement",
+    "AnnouncementAcknowledgement",
+    "Conversation",
+    "ConversationParticipant",
+    "DirectMessage",
+    "NotificationCategory",
+    "NotificationPriority",
+    "NotificationStatus",
+    "AnnouncementScope",
+    "AnnouncementStatus",
+    "AnnouncementPriority",
+    "ConversationType",
+    "AcademicCalendarEvent",
+    "AcademicRoom",
+    "StudentLeaveRequest",
+    "ScheduleChangeLog",
+    "SubstituteFacultyAssignment",
+    "CalendarEventType",
+    "RoomType",
+    "LeaveType",
+    "LeaveStatus",
+    "SessionType",
+    "SubstitutionStatus",
+    "AdminAuditEvent",
+    "SecurityEventLog",
+    "SystemPolicy",
+    "PolicyVersionHistory",
+    "SystemConfiguration",
+    "AdminActionType",
+    "SecurityEventSeverity",
+    "PolicyCategory",
+    "PolicyStatus",
+]
+
+from app.models.administration import (
+    AdminAuditEvent,
+    SecurityEventLog,
+    SystemPolicy,
+    PolicyVersionHistory,
+    SystemConfiguration,
+    AdminActionType,
+    SecurityEventSeverity,
+    PolicyCategory,
+    PolicyStatus,
+)

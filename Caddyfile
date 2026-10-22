@@ -1,0 +1,74 @@
+http://15.252.235.113, http://15.252.235.113.sslip.io {
+    redir https://15.252.235.113.sslip.io{uri} permanent
+}
+
+15.252.235.113.sslip.io {
+    encode gzip
+
+    handle /.well-known/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /oauth/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /mcp* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /sse* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /messages* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /api/ai/* {
+        reverse_proxy 127.0.0.1:3000
+    }
+    handle /api/v1/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /docs* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /openapi.json {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle {
+        reverse_proxy 127.0.0.1:3000
+    }
+}
+
+:443 {
+    tls internal
+    encode gzip
+
+    handle /.well-known/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /oauth/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /mcp* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /sse* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /messages* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /api/ai/* {
+        reverse_proxy 127.0.0.1:3000
+    }
+    handle /api/v1/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /docs* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /openapi.json {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle {
+        reverse_proxy 127.0.0.1:3000
+    }
+}

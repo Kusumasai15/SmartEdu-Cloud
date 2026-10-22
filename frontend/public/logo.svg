@@ -1,0 +1,32 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-grad-primary" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="50%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="logo-grad-accent" x1="16" y1="16" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+    <filter id="logo-glow" x="0" y="0" width="64" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background Hex/Pill Shield -->
+  <rect x="6" y="6" width="52" height="52" rx="16" fill="url(#logo-grad-primary)"/>
+  <rect x="7" y="7" width="50" height="50" rx="15" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+
+  <!-- Inner Geometric Cap & Book Wings -->
+  <path d="M32 18L49 26L32 34L15 26L32 18Z" fill="white" fill-opacity="0.95"/>
+  <path d="M21 29.5V38.5C21 42 25.5 45.5 32 45.5C38.5 45.5 43 42 43 38.5V29.5L32 35L21 29.5Z" fill="white" fill-opacity="0.85"/>
+  
+  <!-- Cloud Node Accent -->
+  <path d="M44 32C45.5 32 47 33.2 47 35C47 36.8 45.5 38 44 38H43V32H44Z" fill="white" fill-opacity="0.9"/>
+  <circle cx="47" cy="27" r="2" fill="#FDE047"/>
+
+  <!-- Tassel Cord -->
+  <path d="M47 26.5V36C47 37 45.5 37.5 45.5 38.5" stroke="#FDE047" stroke-width="2" stroke-linecap="round"/>
+</svg>

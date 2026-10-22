@@ -1,0 +1,389 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;          /* Crisp clean cool slate-white canvas #F8FAFC */
+    --foreground: 222 47% 11%;          /* High-contrast readable slate #0F172A */
+    --card: 0 0% 100%;                  /* Pure white card surface #FFFFFF */
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;             /* Clean corporate royal blue #2563EB */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;           /* Subtle clean ice/slate surface #F1F5F9 */
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;     /* Clear readable secondary slate #64748B */
+    --accent: 214 100% 97%;             /* Clean ice-blue highlight #EFF6FF */
+    --accent-foreground: 221 83% 53%;   /* Royal blue text #2563EB */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 69% 38%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --border: 214 32% 91%;              /* Subtle crisp slate border #E2E8F0 */
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+    --radius: 0.5rem;
+    --ease-ui-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-ui-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  .dark {
+    --background: 224 71% 4%;           /* Rich deep dark slate */
+    --foreground: 210 40% 98%;
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 221 83% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 33% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 15%;
+    --accent-foreground: 221 83% 75%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 210 40% 98%;
+    --success: 152 69% 38%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 221 83% 60%;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: 0;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+  code, pre, .font-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+  button, [role="button"], a, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button, [role="button"], a {
+    touch-action: manipulation;
+  }
+  button:active:not(:disabled), [role="button"]:active:not([aria-disabled="true"]) {
+    transform: scale(0.97);
+  }
+  :focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+
+  .dark input:not([type="checkbox"]):not([type="radio"]),
+  .dark select,
+  .dark textarea {
+    color-scheme: dark;
+  }
+}
+
+/* ───── Professional SaaS Card Surface ───── */
+.saas-card {
+  @apply bg-card rounded-lg border border-border p-5;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms var(--ease-ui-out);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.035), 0 6px 18px rgba(37, 99, 235, 0.025);
+}
+
+.saas-card:hover {
+  @apply border-blue-200 dark:border-blue-900/50;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.035), 0 10px 24px rgba(37, 99, 235, 0.06);
+}
+
+/* ───── Professional University LMS Luminous Hero Header ───── */
+.saas-hero-banner {
+  @apply relative overflow-hidden rounded-lg p-6 sm:p-8 text-slate-950 border border-blue-200 bg-white;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+/* ───── Professional SaaS Button Styles ───── */
+.btn-saas-primary {
+  @apply inline-flex items-center justify-center font-medium rounded-lg px-4 py-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none;
+  transition: background-color 160ms ease, box-shadow 160ms ease, transform 140ms var(--ease-ui-out);
+  background: #2563EB;
+  color: #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(37, 99, 235, 0.25);
+}
+.btn-saas-primary:hover {
+  background: #1D4ED8;
+  box-shadow: 0 2px 6px 0 rgba(37, 99, 235, 0.35);
+}
+
+.btn-saas-primary:active,
+.btn-saas-secondary:active,
+.btn-saas-outline:active,
+.btn-saas-white:active {
+  transform: scale(0.98);
+}
+
+/* Shared data-entry and information surfaces */
+:where(input, select, textarea):not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+:where(input, select, textarea):not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus {
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+  outline: none;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead th {
+  background-color: #f8fbff;
+  color: #475569;
+}
+
+.dark thead th {
+  background-color: rgba(15, 23, 42, 0.72);
+  color: #cbd5e1;
+}
+
+tbody tr {
+  transition: background-color 140ms ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(239, 246, 255, 0.55);
+}
+
+.dark tbody tr:hover {
+  background-color: rgba(30, 41, 59, 0.55);
+}
+
+.btn-saas-secondary {
+  @apply inline-flex items-center justify-center font-medium rounded-lg px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-600 cursor-pointer shadow-2xs;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 140ms var(--ease-ui-out);
+}
+
+.btn-saas-outline {
+  @apply inline-flex items-center justify-center font-medium rounded-lg px-4 py-2 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 140ms var(--ease-ui-out);
+}
+
+.btn-saas-white {
+  @apply inline-flex items-center justify-center font-medium rounded-lg px-4 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border border-slate-200 dark:border-slate-700 shadow-sm;
+  transition: background-color 160ms ease, transform 140ms var(--ease-ui-out);
+}
+
+/* ───── Clean Semantic Badges (Executive Slate Look) ───── */
+.badge-lavender,
+.badge-primary {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700;
+}
+.badge-sky,
+.badge-neutral {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700;
+}
+.badge-mint,
+.badge-success {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-medium bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60;
+}
+.badge-amber,
+.badge-warning {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-medium bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60;
+}
+.badge-pink,
+.badge-danger {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-medium bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60;
+}
+
+/* ───── Clean Modern Scrollbar ───── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* Universal neutralization of garish/rainbow/purple text across ALL elements */
+[class*="text-purple-"],
+[class*="text-violet-"],
+[class*="text-fuchsia-"],
+[class*="text-pink-"] {
+  color: #1E293B !important;
+}
+.dark [class*="text-purple-"],
+.dark [class*="text-violet-"],
+.dark [class*="text-fuchsia-"],
+.dark [class*="text-pink-"] {
+  color: #E2E8F0 !important;
+}
+
+/* Icons with purple stroke/fill */
+svg[class*="text-purple-"],
+svg[class*="text-violet-"],
+svg[class*="text-fuchsia-"],
+svg[class*="text-pink-"] {
+  color: #2563EB !important;
+}
+.dark svg[class*="text-purple-"],
+.dark svg[class*="text-violet-"],
+.dark svg[class*="text-fuchsia-"],
+.dark svg[class*="text-pink-"] {
+  color: #60A5FA !important;
+}
+
+/* Background badges and tags */
+[class*="bg-purple-"],
+[class*="bg-violet-"],
+[class*="bg-fuchsia-"],
+[class*="bg-pink-"] {
+  background-color: #F1F5F9 !important;
+}
+.dark [class*="bg-purple-"],
+.dark [class*="bg-violet-"],
+.dark [class*="bg-fuchsia-"],
+.dark [class*="bg-pink-"] {
+  background-color: #1E293B !important;
+}
+
+[class*="border-purple-"],
+[class*="border-violet-"],
+[class*="border-fuchsia-"],
+[class*="border-pink-"] {
+  border-color: #CBD5E1 !important;
+}
+.dark [class*="border-purple-"],
+.dark [class*="border-violet-"],
+.dark [class*="border-fuchsia-"],
+.dark [class*="border-pink-"] {
+  border-color: #334155 !important;
+}
+
+/* ───── Universal Scrollable Modal & Form Safeguard ───── */
+div.fixed.inset-0.z-50,
+div.fixed.inset-0.z-\[60\],
+div.fixed.inset-0.z-\[70\],
+div.fixed.inset-0.z-\[100\] {
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+div.fixed.inset-0.z-50 > div:not(.fixed),
+div.fixed.inset-0.z-\[60\] > div:not(.fixed),
+div.fixed.inset-0.z-\[70\] > div:not(.fixed),
+div.fixed.inset-0.z-\[100\] > div:not(.fixed) {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 2.5rem);
+  overflow-y: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  overscroll-behavior: contain;
+}
+
+div.fixed.inset-0.z-50 > div:not(.fixed) > div:first-child,
+div.fixed.inset-0.z-\[60\] > div:not(.fixed) > div:first-child,
+div.fixed.inset-0.z-\[70\] > div:not(.fixed) > div:first-child,
+div.fixed.inset-0.z-\[100\] > div:not(.fixed) > div:first-child {
+  flex-shrink: 0;
+}
+
+div.fixed.inset-0.z-50 > div:not(.fixed) > form,
+div.fixed.inset-0.z-\[60\] > div:not(.fixed) > form,
+div.fixed.inset-0.z-\[70\] > div:not(.fixed) > form,
+div.fixed.inset-0.z-\[100\] > div:not(.fixed) > form {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+div.fixed.inset-0.z-50 > div:not(.fixed) > form > div:last-child,
+div.fixed.inset-0.z-\[60\] > div:not(.fixed) > form > div:last-child,
+div.fixed.inset-0.z-\[70\] > div:not(.fixed) > form > div:last-child,
+div.fixed.inset-0.z-\[100\] > div:not(.fixed) > form > div:last-child {
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffff;
+  z-index: 10;
+  padding-top: 0.75rem;
+  padding-bottom: 0.25rem;
+}
+
+.dark div.fixed.inset-0.z-50 > div:not(.fixed) > form > div:last-child,
+.dark div.fixed.inset-0.z-\[60\] > div:not(.fixed) > form > div:last-child,
+.dark div.fixed.inset-0.z-\[70\] > div:not(.fixed) > form > div:last-child,
+.dark div.fixed.inset-0.z-\[100\] > div:not(.fixed) > form > div:last-child {
+  background-color: #181C2B;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Light-only institutional surfaces. These replace the previous gray cast
+   without flattening borders, hierarchy, or interactive states. */
+html:not(.dark) :where(
+  [class~="bg-slate-50"],
+  [class~="bg-[#F7F8FC]"],
+  [class~="bg-[#F8FAFD]"]
+) {
+  background-color: #f8fbff !important;
+}
+
+html:not(.dark) :where(
+  [class~="bg-slate-100"],
+  [class~="bg-slate-50/50"],
+  [class~="bg-slate-50/60"],
+  [class~="bg-slate-50/70"],
+  [class~="bg-slate-50/80"],
+  [class~="bg-slate-100/50"],
+  [class~="bg-slate-100/70"],
+  [class~="bg-slate-100/80"]
+) {
+  background-color: #eff6ff !important;
+}
+
+@supports (padding: max(0px)) {
+  .mobile-safe-bottom {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}
+

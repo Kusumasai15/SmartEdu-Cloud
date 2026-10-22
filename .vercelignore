@@ -1,0 +1,32 @@
+# Dependencies and builds
+**/node_modules
+**/.next
+**/out
+**/build
+**/dist
+
+# Backend and virtual environments
+backend
+**/backend
+**/.venv
+**/venv
+**/env
+**/__pycache__
+**/*.pyc
+.pytest_cache
+**/.pytest_cache
+
+# Large data and docs
+data-structures
+docker
+docs
+scripts
+smartedu_dev.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Git and OS files
+**/.git
+.DS_Store
+Thumbs.db

@@ -1,0 +1,28 @@
+# ==============================================================================
+# Caddyfile: Automated Free TLS/HTTPS Reverse Proxy
+# Replaces expensive Application Load Balancer ($20/mo) with 100% Free Caddy (₹0)
+# ==============================================================================
+
+# Replace with your actual domain or EC2 Public DNS
+{
+    auto_https off
+}
+
+:80 {
+    # Reverse proxy to Next.js Frontend
+    handle /api/* {
+        reverse_proxy localhost:8000
+    }
+
+    handle /docs* {
+        reverse_proxy localhost:8000
+    }
+
+    handle /openapi.json {
+        reverse_proxy localhost:8000
+    }
+
+    handle {
+        reverse_proxy localhost:3000
+    }
+}
