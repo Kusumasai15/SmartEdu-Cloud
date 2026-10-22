@@ -1,4 +1,5 @@
 """Pydantic v2 Schemas for Academic Calendar, Rooms, Leave, and Scheduling Intelligence."""
+from app.schemas.validation import TrimmedString
 
 from typing import List, Optional, Dict, Any
 from datetime import date, datetime
@@ -19,7 +20,7 @@ from app.models.timetable import DayOfWeek, ScheduleStatus
 # -------------------------------------------------------------
 class CalendarEventCreate(BaseModel):
     event_type: CalendarEventType
-    title: str = Field(..., max_length=200)
+    title: TrimmedString = Field(..., max_length=200, min_length=1)
     description: Optional[str] = None
     start_date: date
     end_date: date
@@ -50,9 +51,9 @@ class CalendarEventResponse(BaseModel):
 # ROOM / RESOURCE INVENTORY
 # -------------------------------------------------------------
 class AcademicRoomCreate(BaseModel):
-    building: str = Field(..., max_length=100)
+    building: TrimmedString = Field(..., max_length=100, min_length=1)
     floor: Optional[str] = Field(None, max_length=80)
-    room_number: str = Field(..., max_length=50)
+    room_number: TrimmedString = Field(..., max_length=50, min_length=1)
     display_name: Optional[str] = Field(None, max_length=150)
     room_category: Optional[str] = Field(None, max_length=30)
     facilities: List[str] = Field(default_factory=list)
@@ -93,7 +94,7 @@ class StudentLeaveCreate(BaseModel):
     leave_type: LeaveType = LeaveType.PERSONAL
     start_date: date
     end_date: date
-    reason: str = Field(..., min_length=5, max_length=2000)
+    reason: TrimmedString = Field(..., min_length=5, max_length=2000)
 
 
 class StudentLeaveReviewRequest(BaseModel):
@@ -159,7 +160,7 @@ class ScheduleRescheduleRequest(BaseModel):
 class SubstituteFacultyRequest(BaseModel):
     substitute_faculty_id: str
     assigned_date: date
-    reason: str
+    reason: TrimmedString = Field(..., min_length=1)
 
 
 class SubstituteFacultyResponse(BaseModel):

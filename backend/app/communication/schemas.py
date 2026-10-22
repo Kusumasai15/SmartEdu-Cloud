@@ -1,4 +1,5 @@
 """Pydantic v2 Schemas for Communication, Notifications, Announcements & Messaging."""
+from app.schemas.validation import TrimmedString
 
 from typing import List, Optional, Dict, Any
 from datetime import datetime
@@ -21,12 +22,12 @@ class NotificationCreate(BaseModel):
     recipient_id: str
     category: NotificationCategory = NotificationCategory.ACADEMIC
     priority: NotificationPriority = NotificationPriority.NORMAL
-    title: str = Field(..., max_length=200)
-    message: str
-    source_type: Optional[str] = None
+    title: TrimmedString = Field(..., max_length=200, min_length=1)
+    message: TrimmedString = Field(..., min_length=1)
+    source_type: Optional[str] = Field(None, max_length=50)
     source_id: Optional[str] = None
-    action_url: Optional[str] = None
-    dedup_key: Optional[str] = None
+    action_url: Optional[str] = Field(None, max_length=255)
+    dedup_key: Optional[str] = Field(None, max_length=255)
 
 
 class NotificationResponse(BaseModel):
@@ -78,8 +79,8 @@ class UnreadCountResponse(BaseModel):
 # ANNOUNCEMENT SCHEMAS
 # -------------------------------------------------------------
 class AnnouncementCreate(BaseModel):
-    title: str = Field(..., max_length=255)
-    content: str
+    title: TrimmedString = Field(..., max_length=255, min_length=1)
+    content: TrimmedString = Field(..., min_length=1)
     scope_type: AnnouncementScope = AnnouncementScope.COURSE
     scope_id: Optional[str] = None
     priority: AnnouncementPriority = AnnouncementPriority.NORMAL
@@ -89,8 +90,8 @@ class AnnouncementCreate(BaseModel):
 
 
 class AnnouncementUpdate(BaseModel):
-    title: Optional[str] = Field(None, max_length=255)
-    content: Optional[str] = None
+    title: Optional[TrimmedString] = Field(None, max_length=255, min_length=1)
+    content: Optional[TrimmedString] = Field(None, min_length=1)
     priority: Optional[AnnouncementPriority] = None
     is_acknowledgement_required: Optional[bool] = None
     expires_at: Optional[datetime] = None
@@ -140,7 +141,7 @@ class AIDraftResponse(BaseModel):
 
 class AISummarizeRequest(BaseModel):
     content: str
-    max_words: Optional[int] = 100
+    max_words: Optional[int] = Field(100, ge=1, le=2000)
 
 
 class AISummarizeResponse(BaseModel):
@@ -167,12 +168,12 @@ class AIToneImproveResponse(BaseModel):
 class ConversationCreate(BaseModel):
     participant_user_id: str
     course_id: Optional[str] = None
-    title: Optional[str] = None
+    title: Optional[str] = Field(None, max_length=200)
     initial_message: Optional[str] = None
 
 
 class DirectMessageCreate(BaseModel):
-    body: str = Field(..., min_length=1, max_length=5000)
+    body: TrimmedString = Field(..., min_length=1, max_length=5000)
 
 
 class DirectMessageResponse(BaseModel):

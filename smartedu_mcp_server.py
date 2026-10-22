@@ -376,6 +376,9 @@ def handle_call_tool(name: str, args: dict, caller_token: str = None):
         total_marks = float(args.get("total_marks", 20.0))
         passing_marks = float(args.get("passing_marks", total_marks * 0.4))
         raw_questions = args.get("questions", [])
+        if not isinstance(raw_questions, list) or not raw_questions:
+            return {"success": False, "error": "Supply at least one valid question before publishing a quiz."}
+
 
         if not course_code or not title:
             return {"success": False, "error": "`course_code` and `title` are required."}
@@ -402,17 +405,7 @@ def handle_call_tool(name: str, args: dict, caller_token: str = None):
             })
 
         if not formatted_questions:
-            # Add at least one default question if none supplied
-            formatted_questions.append({
-                "question_type": "MCQ_SINGLE",
-                "difficulty": "MEDIUM",
-                "question_text": "Sample assessment verification question",
-                "points": 5.0,
-                "options": [
-                    {"option_text": "Correct Option", "is_correct": True, "display_order": 1},
-                    {"option_text": "Incorrect Option", "is_correct": False, "display_order": 2}
-                ]
-            })
+            return {"success": False, "error": "Supply at least one valid question before publishing a quiz."}
 
         quiz_payload = {
             "title": title,

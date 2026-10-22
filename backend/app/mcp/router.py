@@ -1872,18 +1872,7 @@ def _execute_mcp_tool(
         if access_error:
             return {"success": False, "error": f"FORBIDDEN: {access_error}"}
         if not isinstance(questions, list) or not questions:
-            questions = [
-                {
-                    "question_text": f"Foundational concepts and principles assessment for {course.course_code}.",
-                    "points": float(total_points),
-                    "options": [
-                        {"text": "Option A (Verified Answer)", "is_correct": True},
-                        {"text": "Option B (Distractor)", "is_correct": False},
-                        {"text": "Option C (Distractor)", "is_correct": False},
-                        {"text": "Option D (Distractor)", "is_correct": False},
-                    ]
-                }
-            ]
+            return {"success": False, "error": "Supply at least one valid question before publishing a quiz."}
 
         now_utc = datetime.now(timezone.utc)
         new_exam = Exam(
