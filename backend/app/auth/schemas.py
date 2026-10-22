@@ -1,3 +1,4 @@
+from app.schemas.validation import TrimmedString
 from typing import List, Literal, Optional
 from pydantic import BaseModel, Field
 
@@ -10,7 +11,7 @@ class LoginRequest(BaseModel):
 
 class RegisterRequest(BaseModel):
     """Payload for creating a real institutional account."""
-    first_name: str = Field(..., min_length=1, max_length=100)
+    first_name: TrimmedString = Field(..., min_length=1, max_length=100)
     last_name: str = Field(default="", max_length=100)
     email: str = Field(..., description="Institutional email address")
     password: str = Field(..., min_length=6)
@@ -74,18 +75,18 @@ class UserProfileResponse(BaseModel):
 
 class UpdateProfileRequest(BaseModel):
     """Payload for updating user profile information."""
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    phone: Optional[str] = None
-    bio: Optional[str] = None
-    avatar_url: Optional[str] = None
-    skills: Optional[str] = None
-    certifications: Optional[str] = None
-    achievements: Optional[str] = None
-    notification_preferences: Optional[str] = None
-    github_url: Optional[str] = None
-    linkedin_url: Optional[str] = None
-    website_url: Optional[str] = None
+    first_name: Optional[TrimmedString] = Field(None, min_length=1, max_length=100)
+    last_name: Optional[TrimmedString] = Field(None, max_length=100)
+    phone: Optional[str] = Field(None, max_length=50)
+    bio: Optional[str] = Field(None, max_length=1000)
+    avatar_url: Optional[str] = Field(None, max_length=500)
+    skills: Optional[str] = Field(None, max_length=4000)
+    certifications: Optional[str] = Field(None, max_length=8000)
+    achievements: Optional[str] = Field(None, max_length=8000)
+    notification_preferences: Optional[str] = Field(None, max_length=2000)
+    github_url: Optional[str] = Field(None, max_length=255)
+    linkedin_url: Optional[str] = Field(None, max_length=255)
+    website_url: Optional[str] = Field(None, max_length=255)
 
 
 class ChangePasswordRequest(BaseModel):
