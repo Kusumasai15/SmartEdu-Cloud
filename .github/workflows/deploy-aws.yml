@@ -3,10 +3,11 @@ name: CI/CD Pipeline - AWS Production Deployment
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -56,17 +57,44 @@ jobs:
           NEXT_PUBLIC_API_URL: "https://api.smartedu.local"
         run: npm run build
 
+  deployment-config:
+    name: Check AWS Deployment Configuration
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && vars.AWS_DEPLOYMENT_ENABLED == 'true'
+    outputs:
+      ready: ${{ steps.config.outputs.ready }}
+    steps:
+      - name: Check required deployment settings
+        id: config
+        env:
+          AWS_DEPLOYMENT_ROLE_ARN: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
+          AWS_PRIVATE_SUBNET_ID: ${{ secrets.AWS_PRIVATE_SUBNET_ID }}
+          AWS_API_SG_ID: ${{ secrets.AWS_API_SG_ID }}
+        shell: bash
+        run: |
+          ready=true
+          for setting in AWS_DEPLOYMENT_ROLE_ARN AWS_PRIVATE_SUBNET_ID AWS_API_SG_ID; do
+            if [ -z "${!setting}" ]; then
+              echo "::warning::Missing required Actions secret: $setting. AWS deployment will be skipped."
+              ready=false
+            fi
+          done
+          echo "ready=$ready" >> "$GITHUB_OUTPUT"
+
   deploy:
     name: Build ECR Images, Run DB Migrations & Deploy ECS Services
-    needs: validate
+    needs: [validate, deployment-config]
+    permissions:
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && needs.deployment-config.outputs.ready == 'true'
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials (OIDC or Secret Keys)
+      - name: Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION || 'ap-south-1' }}
